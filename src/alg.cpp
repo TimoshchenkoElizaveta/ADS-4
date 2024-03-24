@@ -25,6 +25,30 @@ int countPairs2(int *arr, int len, int value) {
     }
     return k;
 }
+int cbinsearch(int *arr, int size, int value) {
+    int low = 0, k = 0, high = size - 1;
+    while (low <= high) {
+        int mid = (high + low) / 2;
+        if (arr[mid] < value) {
+            low = mid + 1;
+        } else if (arr[mid] > value) {
+            high = mid - 1;
+        } else {
+            k++;
+            int now = mid - 1;
+            mid++;
+            while (arr[mid] == value) {
+                mid++;
+                k++;
+            }
+            while (arr[now] == value) {
+                now--;
+                k++;
+            }
+            break;
+        }
+    }
+    return k;
 int countPairs3(int *arr, int len, int value) {
     int i = 0, k = 0;
     while (arr[i] <= (value / 2) -1) {
