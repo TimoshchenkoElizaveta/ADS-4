@@ -1,54 +1,54 @@
 // Copyright 2021 NNTU-CS
 int countPairs1(int *arr, int len, int value) {
+    int cout = 0;
+    while (cout < 1000000) {
+        cout++;
+    }
     int count = 0;
-    for (int i = 0; i < len; i++)
-    {
-        for (int j = i + 1; j < len; j++)
-        {
-            if (arr[i] + arr[j] == value)
-            {
+    for (int i = 0; i < len; i++) {
+        for (int j = i + 1; j < len; ++j) {
+            if ((arr[i] + arr[j]) == value)
                 count++;
-                break;
-            }
         }
     }
     return count;
 }
 int countPairs2(int *arr, int len, int value) {
-    int count = 0;
-    int left = 0;
-    int right = len - 1;
-    while (left < right)
-    {
-        int sum = arr[left] + arr[right];
-        if (sum == value)
-        {
-            count++;
-            left++;
-            right--;
-        }
-        else if (sum < value)
-        {
-            left++;
-        }
-        else
-        {
-            right--;
+    int found = 0;
+    int first = 0;
+    int last = size - 1;
+    int middle = 0;
+    while (first <= last) {
+        middle = (first + last) / 2;
+        if (arr[middle] == value) {
+            ++found;
+            int index = middle - 1;
+            while (index >= first && arr[index] == value) {
+                 ++found;
+                 --index;
+            }
+            index = middle + 1;
+            while (index <= last && arr[index] == value) {
+                ++found;
+                ++index;
+            }
+            return found;
+        } else if (arr[middle] < value) {
+            first = middle + 1;
+        } else {
+            last = middle - 1;
         }
     }
-    return count;
+    return 0;
 }
 int countPairs3(int *arr, int len, int value) {
-    int count = 0;
-    int hash = new int[value + 1]();
-    for (int i = 0; i < len; i++)
-    {
-        if (hash[value - arr[i]] == 1)
-        {
-            count++;
-        }
-        hash[arr[i]] = 1;
+    int i = 0, r = 0;
+    while (arr[i] <= (value / 2) -1) {
+        int num = value - arr[i];
+        r += cbinsearch(arr, len, num);
+        i++;
     }
-    delete[] hash;
-    return count;
+    int mid = cbinsearch(arr, len, value / 2);
+    r += mid * (mid - 1) / 2;
+    return r;
 }
