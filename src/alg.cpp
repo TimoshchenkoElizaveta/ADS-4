@@ -1,35 +1,38 @@
 // Copyright 2021 NNTU-CS
 int countPairs1(int *arr, int len, int value) {
-    int count = 0;
-    for (int i = 0; i < len; i++) {
-        for (int j = i + 1; j < len; j++) {
+    int k = 0;
+    for (int i = 0; i < len; ++i) {
+        for (int j = i + 1; j < len; ++j) {
             if (arr[i] + arr[j] == value) {
-                count++;
+                k++;
             }
         }
     }
-    return count;
+    return k;
 }
 int countPairs2(int *arr, int len, int value) {
-    int count = 0;
-    for (int i = 0; i < len; i++) {
-        for (int j = i; j < len; j++) {
-            if (i != j && arr[i] + arr[j] == value) {
-                count++;
+    int k = 0;
+    int high = len - 1;
+    while (arr[high] > value) {
+       high = high - 1;
+    }
+    for (int i = 0; i < high; i++) {
+        for (int j = high; j > i; j--) {
+            if (arr[i] + arr[j] == value) {
+                k++;
             }
         }
     }
-    return count;
+    return k;
 }
 int countPairs3(int *arr, int len, int value) {
-    int count = 0;
-    int freq[1001] = {0};
-    for (int i = 0; i < len; i++) {
-        int complement = value - arr[i];
-        if (complement >= 0 && complement <= 1000) {
-            count += freq[complement];
-        }
-        freq[arr[i]]++;
+    int i = 0, k = 0;
+    while (arr[i] <= (value / 2) -1) {
+        int num = value - arr[i];
+        k += cbinsearch(arr, len, num);
+        i++;
     }
-    return count;
+    int mid = cbinsearch(arr, len, value / 2);
+    k += mid * (mid - 1) / 2;
+    return k;
 }
